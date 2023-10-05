@@ -1,0 +1,107 @@
+openapi: 3.0.0
+info:
+  title: Список задач API
+  version: 1.0.0
+  description: API для управления списком задач
+
+paths:
+  /tasks:
+    get:
+      summary: Получить список задач
+      description: Возвращает список всех задач.
+      responses:
+        200:
+          description: Список задач успешно получен.
+        500:
+          description: Ошибка на сервере.
+
+    post:
+      summary: Создать новую задачу
+      description: Создает новую задачу и добавляет ее в список.
+      requestBody:
+        description: Данные для создания задачи.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: Название задачи.
+                description:
+                  type: string
+                  description: Описание задачи.
+                due_date:
+                  type: string
+                  format: date
+                  description: Срок выполнения задачи.
+      responses:
+        201:
+          description: Задача успешно создана.
+        400:
+          description: Ошибка валидации входных данных.
+        500:
+          description: Ошибка на сервере.
+
+  /tasks/{task_id}:
+    parameters:
+      - name: task_id
+        in: path
+        required: true
+        description: Идентификатор задачи.
+        schema:
+          type: integer
+          format: int64
+    get:
+      summary: Получить информацию о задаче
+      description: Возвращает информацию о задаче по ее идентификатору.
+      responses:
+        200:
+          description: Информация о задаче успешно получена.
+        404:
+          description: Задача не найдена.
+        500:
+          description: Ошибка на сервере.
+
+    put:
+      summary: Обновить задачу
+      description: Обновляет информацию о задаче по ее идентификатору.
+      requestBody:
+        description: Данные для обновления задачи.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: Новое название задачи.
+                description:
+                  type: string
+                  description: Новое описание задачи.
+                due_date:
+                  type: string
+                  format: date
+                  description: Новый срок выполнения задачи.
+      responses:
+        200:
+          description: Задача успешно обновлена.
+        400:
+          description: Ошибка валидации входных данных.
+        404:
+          description: Задача не найдена.
+        500:
+          description: Ошибка на сервере.
+
+    delete:
+      summary: Удалить задачу
+      description: Удаляет задачу по ее идентификатору.
+      responses:
+        204:
+          description: Задача успешно удалена.
+        404:
+          description: Задача не найдена.
+        500:
+          description: Ошибка на сервере.
